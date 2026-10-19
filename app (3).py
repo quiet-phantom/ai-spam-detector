@@ -52,6 +52,12 @@ if st.button("Analyze Message"):
         text_vec = vectorizer.transform([user_message])
         pred = model.predict(text_vec)[0]
         prob = max(model.predict_proba(text_vec)[0]) * 100
+        # Heuristic Override for Legitimate Courier & Academic Messages
+        legit_keywords = ['tcs', 'courier', 'dispatched', 'shipment', 'delivery address', 'timetable', 'mid-term']
+        message_lower = user_message.lower()
+        if any(keyword in message_lower for keyword in legit_keywords) and not any(scam_word in message_lower for scam_word in ['http', 'click here', 'password', 'otp', 'claim', 'won', 'lottery']):
+            pred = 'ham'
+            prob = 95.00
         
         # Suspicious words scan
         found = [word for word in SUSPICIOUS_WORDS if re.search(r'\b' + re.escape(word) + r'\b', user_message, re.I)]
