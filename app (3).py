@@ -13,7 +13,7 @@ st.write("Enter any SMS, Email, or Chat message below to analyze potential secur
 # Load and prepare dataset
 @st.cache_data
 def load_data():
-    df = pd.read_excel('/content/SpamSmsDataset.xlsx')
+    df = pd.read_excel('SpamSmsDataset.xlsx')
     # Clean and ensure correct column orientation
     if 'v1' in df.columns:
         df = df[['v1', 'v2']]
